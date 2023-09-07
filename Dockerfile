@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Define the command to start your application
-CMD [ "node", "api/server.js" ]
+CMD [ "node", "server.js" ]
