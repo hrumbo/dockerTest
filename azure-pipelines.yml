@@ -1,17 +1,35 @@
-  steps:
-  - script: |
-      # Build the Docker image for your Node.js application
-      docker build -t my-node-app:latest .
+trigger:
+- main
 
-      # Run the Docker container for your Node.js application
-      docker run -d -p 3000:3000 my-node-app:latest
+pool:
+  vmImage: 'ubuntu-latest'
 
-      # Wait for the application to be ready (using wait-for-it.sh)
-      ./wait-for-it.sh localhost:3000 -- timeout 60s
+stages:
+- stage: BuildAndRunContainer
+  jobs:
+  - job: BuildAndRun
+    displayName: 'Build and Run Application Container'
+    steps:
+    - script: |
+        # Build the Docker image for your Node.js application
+        docker build -t my-node-app:latest .
 
-      # Change directory to the tests folder
-      cd tests
+        # Run the Docker container for your Node.js application
+        docker run -d -p 3000:3000 my-node-app:latest
 
-      # Run your tests (assuming your tests point to the Docker container)
-      npm test
-    displayName: 'Build, Run, and Test'
+        # Wait for the application to be ready (using wait-for-it.sh)
+        ./wait-for-it.sh localhost:3000 -- timeout 60s
+      displayName: 'Build and Run Application'
+
+- stage: Test
+  jobs:
+  - job: RunTests
+    displayName: 'Run Tests'
+    steps:
+    - script: |
+        # Move to the tests folder
+        cd tests
+
+        # Run your tests (assuming your tests point to the Docker container)
+        npm test
+      displayName: 'Run Tests'
