@@ -25,9 +25,9 @@ pipeline {
                    
                     // Change the working directory to the folder containing package.json   
                     //sh 'apt-get install -y nodejs' 
-                    sh 'npm install'                
-                    
+                                    
                     dir('tests') {
+                        sh 'npm install'
                         try {
                             // Run your tests (npm test or other commands)
                             sh 'npm test'
@@ -42,6 +42,9 @@ pipeline {
         }
 
         stage('Delete Docker Container') {
+             when {
+                expression { currentBuild.resultIsBetterOrEqualTo('FAILURE') }
+            }
             steps {
                 script {
                     echo '*** DELETING CONTAINER ***'

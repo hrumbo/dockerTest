@@ -18,7 +18,7 @@ stages:
         docker run -d -p 3000:3000 my-node-app:latest
 
         # Wait for the application to be ready (using wait-for-it.sh)
-        ./wait-for-it.sh localhost:3000 -- timeout 60s
+        #./wait-for-it.sh localhost:3000 -- timeout 60s
       displayName: 'Build and Run Application'
 
 - stage: Test
@@ -29,7 +29,8 @@ stages:
     - script: |
         # Move to the tests folder
         cd tests
-
+        npm install
+        
         # Run your tests (assuming your tests point to the Docker container)
         npm test
       displayName: 'Run Tests'
