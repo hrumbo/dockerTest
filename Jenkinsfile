@@ -12,7 +12,7 @@ pipeline {
                     sh 'docker run -d -p 3000:3000 my-node-app:latest'
 
                     // Wait for the application to be ready (using wait-for-it.sh)
-                    sh './wait-for-it.sh localhost:3000 -- timeout 60s'
+                    //sh './wait-for-it.sh localhost:3000 -- timeout 60s'
                 }
             }
         }
@@ -25,6 +25,9 @@ pipeline {
 						// Run your tests (npm test or other commands)
 						sh 'npm test'
 					}
+                    
+                    sh 'docker rm -f my-node-app'
+                    
                 }
             }
         }
