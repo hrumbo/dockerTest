@@ -42,9 +42,11 @@ pipeline {
         }
 
         stage('Delete Docker Container') {
-             when {
-                expression { currentBuild.resultIsBetterOrEqualTo('FAILURE') }
-            }
+            when {
+                expression {
+                    def currentResult = currentBuild.result
+                    return currentResult == 'SUCCESS' || currentResult == 'FAILURE'
+             }
             steps {
                 script {
                     echo '*** DELETING CONTAINER ***'
