@@ -14,6 +14,8 @@ pipeline {
 
                     // Wait for the application to be ready (using wait-for-it.sh)
                     // sh './wait-for-it.sh localhost:3000 -- timeout 60s'
+
+                    sleep time: 20, unit: 'SECONDS'
                 }
             }
         }
