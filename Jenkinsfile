@@ -5,6 +5,7 @@ pipeline {
         stage('Build and Run Container') {
             steps {
                 script {
+                   echo '*** BUILDING AND RUNNING CONTAINER ***'
                     // Build the Docker image for the Node.js application
                     sh 'docker build -t my-node-app:latest .'
 
@@ -20,8 +21,10 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Change the working directory to the folder containing package.json
-					dir('tests') {
+                    echo '*** RUNNING TEST CASES ***'
+                    // Change the working directory to the folder containing package.json                    
+                    dir('tests') {
+                        sh 'sudo apt-get install -y nodejs'
 						// Run your tests (npm test or other commands)
 						sh 'npm test'
 					}
