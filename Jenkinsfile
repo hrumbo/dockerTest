@@ -46,7 +46,7 @@ pipeline {
                 script {
                     echo '*** DELETING CONTAINER ***'
                     
-                    sh 'docker rm -f my-node-app'
+                    sh 'docker rm -f node_app'
                     
                 }
             }
