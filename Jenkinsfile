@@ -10,7 +10,7 @@ pipeline {
                     sh 'docker build -t my-node-app:latest .'
 
                     // Run the Docker container for the Node.js application
-                    sh 'docker run -d --name node_app --network host -p 3000:3000 my-node-app:latest'
+                    sh 'docker run -d --name node_app -p 3000:3000 my-node-app:latest'
 
                     // Wait for the application to be ready (using wait-for-it.sh)
                     // sh './wait-for-it.sh localhost:3000 -- timeout 60s'
@@ -25,7 +25,8 @@ pipeline {
                    
                     // Change the working directory to the folder containing package.json   
                     //sh 'apt-get install -y nodejs' 
-                                    
+                    docker exec -it -u root node_app bash
+
                     dir('tests') {
                         sh 'npm install'
                         try {
