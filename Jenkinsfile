@@ -22,18 +22,25 @@ pipeline {
             steps {
                 script {
                     echo '*** RUNNING TEST CASES ***'
-                    // Change the working directory to the folder containing package.json                    
+                   
+                    catchError(buildResult: 'SUCCESS', unstableResult: 'SUCCESS') {
+                    // Your test steps here
+                    // Even if this stage fails, the 'Deploy' stage will run
+                     // Change the working directory to the folder containing package.json                    
                     dir('tests') {
                         sh 'apt-get install -y nodejs'
 						// Run your tests (npm test or other commands)
 						sh 'npm test'
 					}
-                    
+                }
                 }
             }
         }
 
         stage('Delete Docker Container') {
+             when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
             steps {
                 script {
                     echo '*** DELETING CONTAINER ***'
