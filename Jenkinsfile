@@ -25,9 +25,7 @@ pipeline {
                    
                     // Change the working directory to the folder containing package.json   
                     //sh 'apt-get install -y nodejs' 
-                    sh 'docker exec -it -u root node_app bash'
-                    
-
+                                   
                     dir('tests') {
                         sh 'npm install'
                         try {
