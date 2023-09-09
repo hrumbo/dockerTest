@@ -26,9 +26,10 @@ pipeline {
                     catchError(buildResult: 'SUCCESS', unstableResult: 'SUCCESS') {
                     // Your test steps here
                     // Even if this stage fails, the 'Deploy' stage will run
-                     // Change the working directory to the folder containing package.json                    
+                     // Change the working directory to the folder containing package.json   
+                    sh 'apt-get install -y nodejs'                 
+                    
                     dir('tests') {
-                        sh 'apt-get install -y nodejs'
 						// Run your tests (npm test or other commands)
 						sh 'npm test'
 					}
