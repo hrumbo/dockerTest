@@ -15,7 +15,7 @@ pipeline {
                     // Wait for the application to be ready (using wait-for-it.sh)
                     // sh './wait-for-it.sh localhost:3000 -- timeout 60s'
 
-                    sleep time: 20, unit: 'SECONDS'
+                    sleep time: 5, unit: 'SECONDS'
                 }
             }
         }
@@ -44,11 +44,11 @@ pipeline {
         }
 
         stage('Delete Docker Container') {
-             when {
-                expression {
-                    def currentResult = currentBuild.result
-                    return currentResult == 'SUCCESS' || currentResult == 'FAILURE'
-                }
+ //            when {
+ //               expression {
+ //                   def currentResult = currentBuild.result
+ //                   return currentResult == 'SUCCESS' || currentResult == 'FAILURE'
+  //              }
             }
             steps {
                 script {
