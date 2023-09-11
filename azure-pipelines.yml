@@ -16,22 +16,6 @@ stages:
 
         # Run the Docker container for your Node.js application
         docker run -d -p 3000:3000 --network host my-node-app:latest
-
-        docker inspect my-node-app
-
-        # Retrieve the container's IP address
-        container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-node-app)
-
-        # container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
-
-        # Print the container's IP address
-        echo "Container IP address: $container_ip"
-
-        # Set the container's IP address as an environment variable
-        echo "##vso[task.setvariable variable=CONTAINER_IP]$container_ip"
-
-        echo "Environment variables:"
-        env
       displayName: 'Build and Run Application'
 
 - stage: Test
