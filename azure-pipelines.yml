@@ -17,6 +17,8 @@ stages:
         # Run the Docker container for your Node.js application
         docker run -d -p 3000:3000 my-node-app:latest
 
+        docker inspect my-node-app
+
         # Retrieve the container's IP address
         container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-node-app)
 
