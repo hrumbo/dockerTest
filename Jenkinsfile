@@ -12,6 +12,15 @@ pipeline {
                     // Run the Docker container for the Node.js application
                     sh 'docker run -d --name node_app -p 3000:3000 my-node-app:latest'
 
+                    // Retrieve the container's IP address
+                    def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container_id>", returnStdout: true).trim()
+
+                    // Set the container's IP as an environment variable
+                    withEnv(["CONTAINER_IP=${containerIp}"]) {
+                        // Inside this block, CONTAINER_IP is set as an environment variable
+                        // You can access it in this stage or job
+                    }
+
                     // Wait for the application to be ready (using wait-for-it.sh)
                     // sh './wait-for-it.sh localhost:3000 -- timeout 60s'
 
