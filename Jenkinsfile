@@ -13,7 +13,7 @@ pipeline {
                     sh 'docker run -d --name node_app -p 3000:3000 my-node-app:latest'
 
                     // Retrieve the container's IP address
-                    def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container_id>", returnStdout: true).trim()
+                    def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' node_app", returnStdout: true).trim()
 
                     // Set the container's IP as an environment variable
                     withEnv(["CONTAINER_IP=${containerIp}"]) {

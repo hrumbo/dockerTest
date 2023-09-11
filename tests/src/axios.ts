@@ -1,6 +1,9 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-const baseURL= "http://127.0.0.1:3000"; //Your baseURL
+//const baseURL= "http://localhost:3000"; //Your baseURL
+
+const baseURL= `http://${process.env.CONTAINER_IP || 'localhost'}:3000`; //Your baseURL
+
 
 const axiosConfig:AxiosRequestConfig ={
     baseURL

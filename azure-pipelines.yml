@@ -23,6 +23,9 @@ stages:
         # Print the container's IP address
         echo "Container IP address: $container_ip"
 
+        # Set the container's IP address as an environment variable
+        echo "##vso[task.setvariable variable=CONTAINER_IP]$container_ip"
+
         # Wait for the application to be ready (using wait-for-it.sh)
         #./wait-for-it.sh localhost:3000 -- timeout 60s
       displayName: 'Build and Run Application'
