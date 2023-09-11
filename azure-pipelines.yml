@@ -24,7 +24,7 @@ stages:
         echo "Container IP address: $container_ip"
 
         # Set the container's IP address as an environment variable
-        echo "CONTAINER_IP=$container_ip" >> $(Agent.ToolsDirectory)/set_env.sh
+        echo "##vso[task.setvariable variable=CONTAINER_IP]$container_ip"
 
         echo "Environment variables:"
         env
