@@ -10,7 +10,7 @@ pipeline {
                     sh 'docker build -t my-node-app:latest .'
 
                     // Run the Docker container for the Node.js application
-                    sh 'docker run -d --name node_app -p 3000:3000 my-node-app:latest'
+                    sh 'docker run -d --name node_app -p 3000:3000 --network host my-node-app:latest'
 
                     // Retrieve the container's IP address
                     def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' node_app", returnStdout: true).trim()
