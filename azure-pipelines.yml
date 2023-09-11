@@ -15,7 +15,7 @@ stages:
         docker build -t my-node-app:latest .
 
         # Run the Docker container for your Node.js application
-        docker run -d -p 3000:3000 my-node-app:latest
+        docker run -d -p 3000:3000 --network host my-node-app:latest
 
         docker inspect my-node-app
 
