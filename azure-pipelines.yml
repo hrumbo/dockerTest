@@ -18,7 +18,9 @@ stages:
         docker run -d -p 3000:3000 my-node-app:latest
 
         # Retrieve the container's IP address
-        container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
+        container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-node-app)
+
+        # container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
 
         # Print the container's IP address
         echo "Container IP address: $container_ip"
