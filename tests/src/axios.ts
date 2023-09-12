@@ -6,7 +6,7 @@ import axios, {AxiosRequestConfig} from "axios";
 
 //const baseURL= `http://${process.env.CONTAINER_IP || 'localhost:3000'}`; //Your baseURL
 
-const baseURL= "http://node-app-testing-week.azurewebsites.net"; //Your baseURL
+const baseURL= "https://node-app-testing-week.azurewebsites.net"; //Your baseURL
 
 
 const axiosConfig:AxiosRequestConfig ={
