@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     echo '*** BUILDING AND RUNNING CONTAINER ***'
+
                     // Build the Docker image for the Node.js application
                     sh 'docker build -t my-node-app:latest .'
 
@@ -16,15 +17,9 @@ pipeline {
                     def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' node_app", returnStdout: true).trim()
 
                     // Set the container's IP as an environment variable
-                    withEnv(["CONTAINER_IP=${containerIp}"]) {
-                        // Inside this block, CONTAINER_IP is set as an environment variable
-                        // You can access it in this stage or job
-                    }
+                    withEnv(["CONTAINER_IP=${containerIp}"]) 
 
-                    // Wait for the application to be ready (using wait-for-it.sh)
-                    // sh './wait-for-it.sh localhost:3000 -- timeout 60s'
-
-                    sleep time: 5, unit: 'SECONDS'
+                    //sleep time: 5, unit: 'SECONDS'
                 }
             }
         }
@@ -34,31 +29,17 @@ pipeline {
                 script {
                     echo '*** RUNNING TEST CASES ***'
                    
-                    // Change the working directory to the folder containing package.json   
-                    //sh 'apt-get install -y nodejs' 
-                                   
+                    // Change the working directory to the folder containing package.json           
                     dir('tests') {
                         sh 'npm install'
-                        try {
-                            // Run your tests (npm test or other commands)
-                            sh 'npm test'
-                        } catch (Exception e) {
-                            // Set the stage result to FAILURE and continue to the next stage
-                            currentBuild.result = 'FAILURE'
-                            error("Tests failed: ${e.message}")
-                        }
+                        
+                        sh 'npm test'
                     }
                 }
             }
         }
 
         stage('Delete Docker Container') {
- //            when {
- //               expression {
- //                   def currentResult = currentBuild.result
- //                   return currentResult == 'SUCCESS' || currentResult == 'FAILURE'
-//              }
- //           }
             steps {
                 script {
                     echo '*** DELETING CONTAINER ***'

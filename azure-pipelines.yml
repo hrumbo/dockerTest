@@ -5,29 +5,42 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: BuildAndRunContainer
+- stage: BuildAndPushContainer
   jobs:
   - job: BuildAndRun
-    displayName: 'Build and Run Application Container'
+    displayName: 'Build and Push Image'
     steps:
+    - task: Docker@2
+    displayName: buildAndPush
+    inputs:
+      containerRegistry: nodeappcr
+      repository: 'nodeappcr-repo'
+      Dockerfile: Dockerfile
+
+- stage: DeployApp
+  jobs:
+  - job: DeployApp
+    displayName: 'Deploy App'
+    steps:
+    - task: AzureWebAppContainer@1
+      displayName: 'Azure Web App on Container Deploy: node-app-testing-week'
+      inputs:
+        azureSubscription: 'Azure subscription 1 (29a26c0c-0f8e-4781-9ba4-0025694db2d4)'
+        appName: 'node-app-testing-week'
+        containers: 'nodeappcr.azurecr.io/nodeappcr-repo:$(Build.BuildId)'
+
     - script: |
-        # Build the Docker image for your Node.js application
-        docker build -t my-node-app:latest .
+        echo "##vso[task.setvariable variable=CONTAINER_IP;isOutput=true]https://node-app-testing-week.azurewebsites.net/"
+        echo "Variable Value: $CONTAINER_IP"
+      displayName: 'Set Container IP'
 
-        # Run the Docker container for your Node.js application
-        docker run -d -p 3000:3000 --network host my-node-app:latest
-      displayName: 'Build and Run Application'
-
-- stage: Test
+- stage: RunTests
   jobs:
   - job: RunTests
     displayName: 'Run Tests'
     steps:
     - script: |
-        # Move to the tests folder
-        cd tests
         npm install
-        
-        # Run your tests (assuming your tests point to the Docker container)
         npm test
+      workingDirectory: tests
       displayName: 'Run Tests'
