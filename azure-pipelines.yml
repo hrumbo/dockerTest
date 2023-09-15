@@ -16,6 +16,8 @@ stages:
         containerRegistry: nodeappcr
         repository: 'nodeappcr-repo'
         Dockerfile: Dockerfile
+        tags: |
+          $(Build.BuildId)
 
 - stage: DeployApp
   jobs:
