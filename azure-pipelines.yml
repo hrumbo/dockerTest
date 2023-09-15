@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  DOMAIN_URL: 'https://node-app-testing-week.azurewebsites.net/'  # Define the variable at the pipeline level
+
 stages:
 - stage: BuildAndPushContainer
   jobs:
@@ -23,8 +26,6 @@ stages:
   jobs:
   - job: DeployApp
     displayName: 'Deploy App'
-    env:
-      DOMAIN_URL: 'https://node-app-testing-week.azurewebsites.net/'
     steps:
     - task: AzureWebAppContainer@1
       displayName: 'Azure Web App on Container Deploy: node-app-testing-week'
@@ -43,6 +44,7 @@ stages:
     displayName: 'Run Tests'
     steps:
     - script: |
+        export DOMAIN_URL=$DOMAIN_URL  # Set DOMAIN_URL as a process environment variable
         npm install
         npm test
       workingDirectory: tests
