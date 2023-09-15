@@ -19,6 +19,9 @@ pipeline {
                     // Log the container IP address
                     echo "Container IP address: ${containerIp}"
 
+                    // Log Env Variable
+                    echo "CONTAINER_IP: ${env.CONTAINER_IP}"
+
                     // Set the container's IP as an environment variable
                     withEnv(["CONTAINER_IP=${containerIp}"]) {
                         //Setting Environment Variable
