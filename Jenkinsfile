@@ -17,9 +17,7 @@ pipeline {
                     def containerIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' node_app", returnStdout: true).trim()
 
                     // Set the container's IP as an environment variable
-                    withEnv(["CONTAINER_IP=${containerIp}"]) {
-                        //Setting Environment Variable
-                    }
+                    env.CONTAINER_IP = containerIp
 
                     // Log the container IP address
                     echo "Container IP address: ${containerIp}"
