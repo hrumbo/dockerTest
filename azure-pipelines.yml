@@ -11,10 +11,11 @@ stages:
     displayName: 'Build and Push Image'
     steps:
     - task: Docker@2
-    inputs:
-      containerRegistry: nodeappcr
-      repository: 'nodeappcr-repo'
-      Dockerfile: Dockerfile
+      displayName: 'Build and Push'
+      inputs:
+        containerRegistry: nodeappcr
+        repository: 'nodeappcr-repo'
+        Dockerfile: Dockerfile
 
 - stage: DeployApp
   jobs:
@@ -27,7 +28,7 @@ stages:
         azureSubscription: 'Azure subscription 1 (29a26c0c-0f8e-4781-9ba4-0025694db2d4)'
         appName: 'node-app-testing-week'
         containers: 'nodeappcr.azurecr.io/nodeappcr-repo:$(Build.BuildId)'
-
+    
     - script: |
         echo "##vso[task.setvariable variable=CONTAINER_IP;isOutput=true]https://node-app-testing-week.azurewebsites.net/"
         echo "Variable Value: $CONTAINER_IP"
